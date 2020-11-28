@@ -9,8 +9,8 @@ var port = process.env.PORT || 3000;
 
 const pathFile = 'logs/latest.log';
 
-var serversUrls = ["hola", "mundo"];
-
+var serversUrls = [{ ip: "192.168.1.78", port: 8000 }, { ip: "localhost", port: 8001 }];
+var restart_server_file = 'restart_server.sh';
 
 app.use(cors());
 app.use(express.json());
@@ -18,19 +18,24 @@ app.use(express.json());
 // read file and send response
 app.get('/', async (req, res) => {
     fs.readFile(pathFile, (err, data) => {
-        if (!err)
-        res.send(data.toString());
+        if (err) res.sendStatus(400);
+        else res.send(data.toString());
     });
 });
 
 app.post('/', async (req, res) => {
     var id = req.body.id;
-    // reiniciar ese servidor
-
+    var ip = serversUrls[id].ip;
+    console.log(`ssh root@${ip} 'bash -s' < ${restart_server_file}`);
+    exec(`ssh root@${ip} 'bash -s' < ${restart_server_file}`, (error, stdout, stderr) => {
+        if (error) res.json({ request: "error" });
+        else res.json({ request: "success" });
+    });
+    // ssh root@192.168.1.78 'bash -s' < test.sh
 });
 
 function requestServers() {
-    exec('sh request_servers.sh localhost:8000/ localhost:9323/');
+    exec('sh request_servers.sh http://localhost:8001/');
 }
 
 app.listen(port, () => {
