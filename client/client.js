@@ -1,6 +1,7 @@
-const url=""
+const url="http://localhost:8000/"
 
 window.onload= ()=>{
+    console.log("idnjasdas");
     $.get(url,(res)=>{
         $('#data').empty()
         let logs=String(res)
