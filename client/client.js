@@ -1,14 +1,16 @@
-const url="http://192.168.1.71:8000/"
+const url="http://localhost:8000/"
 
 window.onload= ()=>{
     $.get(url,(respond)=>{
-        let res=respond.replace(/(\r\n\t|\n|\r\t)/gm,"")
+        let res=respond.replace(/(\r\n\t|\n|\r\t)/gm,"");
+        console.log(res);
         $('#data').empty()
-        let servers=res.split('.')
+        let servers=res.split(';')
         servers.forEach((server,i)=>{
+            //console.log(server);
             if(server!=""&&server!=''){
                 let data=server.split(' ')
-                appendData(i,data[data.length-1])
+                appendData(i,data[data.length-1], data[data.length-3])
             }
         })
     })
@@ -30,12 +32,11 @@ function startServer(i) {
     })
 }
 
-function appendData(i,isRunning){
-    console.log(`i(${i})  S: ${isRunning}`)
+function appendData(i,isRunning, nameUrl){
     if (isRunning=='DOWN') {
         $('#data').append(`<div class="row">
                                 <div class="col">
-                                    <p class="card-text">SERVICIO ${(i+1)}</p>
+                                    <p class="card-text">SERVICIO ${(i+1)}: (${nameUrl})</p>
                                 </div>
                                 <div class="col">
                                     <p class="btn btn-danger">INACTIVO</p>
@@ -47,7 +48,7 @@ function appendData(i,isRunning){
     } else {
         $('#data').append(`<div class="row">
                                 <div class="col">
-                                    <p class="card-text">SERVICIO ${(i+1)}</p>
+                                    <p class="card-text">SERVICIO ${(i+1)}: (${nameUrl})</p>
                                 </div>
                                 <div class="col">
                                     <p class="btn btn-success">DISPONILE</p>
