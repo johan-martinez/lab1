@@ -1,4 +1,4 @@
-const url="http://localhost:8000/"
+const url="http://192.168.1.71:8000/"
 
 window.onload= ()=>{
     $.get(url,(respond)=>{

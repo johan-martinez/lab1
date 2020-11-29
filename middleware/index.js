@@ -26,7 +26,6 @@ app.get('/', async (req, res) => {
 app.post('/', async (req, res) => {
     var id = req.body.id;
     var ip = serversUrls[id].ip;
-    console.log(`ssh root@${ip} 'bash -s' < ${restart_server_file}`);
     exec(`ssh root@${ip} 'bash -s' < ${restart_server_file}`, (error, stdout, stderr) => {
         if (error) res.json({ request: "error" });
         else res.json({ request: "success" });
