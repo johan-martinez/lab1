@@ -1,23 +1,37 @@
-const url="http://localhost:8000/"
+const url="http://192.168.1.71:8000/"
 
 window.onload= ()=>{
-    console.log("idnjasdas");
-    $.get(url,(res)=>{
+    $.get(url,(respond)=>{
+        let res=respond.replace(/(\r\n\t|\n|\r\t)/gm,"")
         $('#data').empty()
-        let logs=String(res)
-        let servers=logs.split('.')
+        let servers=res.split('.')
         servers.forEach((server,i)=>{
-            let data=server.split(' ')
-            appendData(i,data[data.length-1])
+            if(server!=""&&server!=''){
+                let data=server.split(' ')
+                appendData(i,data[data.length-1])
+            }
         })
     })
 }
 
 function startServer(i) {
-    $.post( url, { id: i } )
+    window.event.preventDefault()
+    $.post({
+        traditional: true,
+        url: url,
+        contentType: 'application/json',
+        data: JSON.stringify( {
+            id: i
+        } ),
+        dataType: 'json'
+    }).done(function(req){
+        let data=JSON.parse(JSON.stringify(req))
+        alert(data.request)
+    })
 }
 
 function appendData(i,isRunning){
+    console.log(`i(${i})  S: ${isRunning}`)
     if (isRunning=='DOWN') {
         $('#data').append(`<div class="row">
                                 <div class="col">
