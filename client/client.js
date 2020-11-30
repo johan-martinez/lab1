@@ -1,4 +1,4 @@
-const url="http://192.168.1.71:8000/"
+const url="http://192.168.1.84:8000/"
 
 window.onload= ()=>{
     $.get(url,(respond)=>{
@@ -7,7 +7,6 @@ window.onload= ()=>{
         $('#data').empty()
         let servers=res.split(';')
         servers.forEach((server,i)=>{
-            //console.log(server);
             if(server!=""&&server!=''){
                 let data=server.split(' ')
                 appendData(i,data[data.length-1], data[data.length-3])

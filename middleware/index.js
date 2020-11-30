@@ -6,7 +6,7 @@ const exec = require('child_process').exec;
 
 const pathFile = 'logs/latest.log';
 const restart_server_file = 'restart_server.sh';
-const serversUrls = [{ ip: "192.168.1.78", port: 3000 }, { ip: "localhost", port: 8001 }];
+const serversUrls = [{ ip: "192.168.1.72", port: 3000 }, { ip: "192.168.1.73", port: 3000 }];
 
 
 var app = express();
